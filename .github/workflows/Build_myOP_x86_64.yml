@@ -62,6 +62,10 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
 
+    - name: Check Space
+      run: |
+        df -h
+
     - name: Clone source code
       env:
         REPO_URL: https://github.com/coolsnowwolf/lede
@@ -155,6 +159,10 @@ jobs:
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+        
+    - name: Check Space
+      run: |
+        df -h
 
     - name: Build firmware
       working-directory: ./openwrt
