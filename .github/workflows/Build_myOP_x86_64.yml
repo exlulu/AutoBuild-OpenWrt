@@ -106,17 +106,21 @@ jobs:
     #  run: |
     #    git clone https://github.com/vernesong/OpenClash.git package/OpenClash
 
-    - name: Import external feeds - OpenClash
-      working-directory: ./openwrt
-      run: |
-        mkdir package/luci-app-openclash
-        cd package/luci-app-openclash
-        git init
-        git remote add -f origin https://github.com/vernesong/OpenClash.git
-        git config core.sparsecheckout true
-        echo "luci-app-openclash" >> .git/info/sparse-checkout
-        git pull --depth 1 origin master
-        git branch --set-upstream-to=origin/master master
+    #- name: Import external feeds - OpenClash
+    #  working-directory: ./openwrt
+    #  run: |
+    #    mkdir package/luci-app-openclash
+    #    cd package/luci-app-openclash
+    #    git init
+    #    git remote add -f origin https://github.com/vernesong/OpenClash.git
+    #    git config core.sparsecheckout true
+    #    echo "luci-app-openclash" >> .git/info/sparse-checkout
+    #    git pull --depth 1 origin master
+    #    git branch --set-upstream-to=origin/master master
+
+    #- name: Check Space
+    #  run: |
+    #    df -h
 
     #- name: Import external feeds - JerryKuKu HelloWorld
     #  working-directory: ./openwrt
