@@ -94,23 +94,18 @@ jobs:
     #    ccache: 'true'
     #    prefix: ./openwrt
 
+    - name: Import external feeds - passwall
+      working-directory: ./openwrt
+      run: |
+        echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
+        echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-
-    - name: Import external feeds - passwall
-      working-directory: ./openwrt
-      run: |
-        git clone https://github.com/xiaorouji/openwrt-passwall.git package/openwrt-passwall
-        git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/openwrt-passwall/luci
-
-    #- name: Import external feeds - OpenClash
-    #  working-directory: ./openwrt
-    #  run: |
-    #    git clone https://github.com/vernesong/OpenClash.git package/OpenClash
 
     #- name: Import external feeds - OpenClash
     #  working-directory: ./openwrt
@@ -152,14 +147,14 @@ jobs:
       run: |
         rm -rfv feeds/luci/applications/luci-app-argon-config
         rm -rfv package/feeds/luci/luci-app-argon-config
-        git clone https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+        git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
 
     - name: Import external feeds - serverchan
       working-directory: ./openwrt
       run: |
         rm -rfv feeds/luci/applications/luci-app-serverchan
         rm -rfv package/feeds/luci/luci-app-serverchan
-        git clone https://github.com/tty228/luci-app-serverchan.git package/luci-app-serverchan
+        git clone -b openwrt-18.06 https://github.com/tty228/luci-app-wechatpush.git package/luci-app-wechatpush
 
     - name: Configuration Customization - Build_myOP_x86_64
       env:
@@ -175,7 +170,7 @@ jobs:
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-        
+
     - name: Check Space
       run: |
         df -h
