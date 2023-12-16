@@ -98,22 +98,9 @@ jobs:
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
-        #echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-
-    #- name: Import external feeds - luci-app-passwall
-    #  working-directory: ./openwrt
-    #  run: |
-    #    rm -rf feeds/luci/applications/luci-app-passwall
-    #    git clone https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
-
-    #- name: Import external feeds - luci-app-wechatpush
-    #  working-directory: ./openwrt
-    #  run: |
-    #    rm -rf feeds/luci/applications/luci-app-wechatpush
-    #    git clone https://github.com/tty228/luci-app-wechatpush.git package/luci-app-wechatpush
 
     - name: Import external feeds - luci-app-adguardhome
       working-directory: ./openwrt
