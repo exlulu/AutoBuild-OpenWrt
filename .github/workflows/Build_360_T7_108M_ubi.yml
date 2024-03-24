@@ -92,10 +92,10 @@ jobs:
         ./scripts/feeds install -a 
         ./scripts/feeds install -a
 
-    - name: Import external feeds - luci-app-adguardhome
-      working-directory: ./openwrt
-      run: |
-        git clone https://github.com/tty228/luci-app-adguardhome.git package/luci-app-adguardhome
+    #- name: Import external feeds - luci-app-adguardhome
+    #  working-directory: ./openwrt
+    #  run: |
+    #    git clone https://github.com/tty228/luci-app-adguardhome.git package/luci-app-adguardhome
 
     #- name: Import external feeds - luci-app-passwall2
     #  working-directory: ./openwrt
