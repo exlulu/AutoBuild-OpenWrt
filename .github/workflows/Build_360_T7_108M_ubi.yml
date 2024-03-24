@@ -92,12 +92,12 @@ jobs:
         rm -rf feeds/packages/lang/golang
         mv ./packages_master/lang/golang ./feeds/packages/lang
         rm -rf ./packages_master
-        git clone https://github.com/kenzok8/small.git
-        rm -rf ./feeds/xiaorouji/shadowsocks-rust
-        mv ./small/shadowsocks-rust ./feeds/xiaorouji
-        rm -rf ./feeds/xiaorouji/naiveproxy
-        mv ./small/naiveproxy ./feeds/xiaorouji
-        rm -rf ./small
+        #git clone https://github.com/kenzok8/small.git
+        #rm -rf ./feeds/xiaorouji/shadowsocks-rust
+        #mv ./small/shadowsocks-rust ./feeds/xiaorouji
+        #rm -rf ./feeds/xiaorouji/naiveproxy
+        #mv ./small/naiveproxy ./feeds/xiaorouji
+        #rm -rf ./small
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
