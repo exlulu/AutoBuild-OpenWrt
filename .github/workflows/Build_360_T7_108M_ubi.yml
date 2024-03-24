@@ -98,7 +98,7 @@ jobs:
         rm -rf ./feeds/xiaorouji/naiveproxy
         mv ./small/naiveproxy ./feeds/xiaorouji
         rm -rf ./small
-        rm -rf feeds/packages/net/{xray*,v2ray-*,sing*}
+        rm -rf feeds/packages/net/{xray*,v2ray-*}
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
