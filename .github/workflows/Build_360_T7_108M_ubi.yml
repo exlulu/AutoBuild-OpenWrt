@@ -86,18 +86,19 @@ jobs:
         sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
         sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
         ./scripts/feeds update -a
-        rm -rf ./feeds/packages/net/{xray*,v2ray-*}
+        rm -rfv ./feeds/packages/net/{xray*,v2ray-*}
         git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
-        mv ./packages_master/lang/rust ./feeds/packages/lang
-        rm -rf ./feeds/packages/lang/golang
-        mv ./packages_master/lang/golang ./feeds/packages/lang
-        rm -rf ./packages_master
+        mv -v ./packages_master/lang/rust ./feeds/packages/lang
+        rm -rfv ./feeds/packages/lang/golang
+        mv -v ./packages_master/lang/golang ./feeds/packages/lang
+        rm -rfv ./packages_master
+        ./scripts/feeds update -a
         #git clone https://github.com/kenzok8/small.git
-        #rm -rf ./feeds/xiaorouji/shadowsocks-rust
-        #mv ./small/shadowsocks-rust ./feeds/xiaorouji
-        #rm -rf ./feeds/xiaorouji/naiveproxy
-        #mv ./small/naiveproxy ./feeds/xiaorouji
-        #rm -rf ./small
+        #rm -rfv ./feeds/xiaorouji/shadowsocks-rust
+        #mv -v ./small/shadowsocks-rust ./feeds/xiaorouji
+        #rm -rfv ./feeds/xiaorouji/naiveproxy
+        #mv -v ./small/naiveproxy ./feeds/xiaorouji
+        #rm -rfv ./small
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
