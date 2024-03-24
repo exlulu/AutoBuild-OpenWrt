@@ -95,8 +95,11 @@ jobs:
         git clone https://github.com/kenzok8/small.git
         rm -rf ./feeds/xiaorouji/shadowsocks-rust
         mv ./small/shadowsocks-rust ./feeds/xiaorouji
+        rm -rf ./feeds/xiaorouji/naiveproxy
+        mv ./small/naiveproxy ./feeds/xiaorouji
         rm -rf ./small
-        ./scripts/feeds install -a 
+        rm -rf feeds/packages/net/{xray*,v2ray-*,sing*}
+        ./scripts/feeds install -a
         ./scripts/feeds install -a
 
     - name: Import external feeds - luci-app-adguardhome
