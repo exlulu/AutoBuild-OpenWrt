@@ -5,7 +5,7 @@
 # Youtube Channel: https://goo.gl/fvkdwm
 #=================================================
 
-name: Build_myOP_x86_64
+name: Build_myOP_360_T7
 
 on:
   # Add a button to trigger the workflow
