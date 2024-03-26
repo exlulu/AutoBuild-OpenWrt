@@ -98,7 +98,7 @@ jobs:
       working-directory: ./openwrt
       run: |
         echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-        echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
+        echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
 
     - name: Update & Install feeds
       working-directory: ./openwrt
@@ -149,7 +149,7 @@ jobs:
         rm -rfv package/feeds/luci/luci-app-argon-config
         git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
 
-    - name: Import external feeds - serverchan
+    - name: Import external feeds - wechatpush
       working-directory: ./openwrt
       run: |
         rm -rfv feeds/luci/applications/luci-app-serverchan
