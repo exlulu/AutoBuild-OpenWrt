@@ -5,22 +5,22 @@
 # Youtube Channel: https://goo.gl/fvkdwm
 #=================================================
 
-name: Build_myOP_360_T7
+name: Build_360_T7
 
 on:
   # Add a button to trigger the workflow
   repository_dispatch:
   workflow_dispatch:
 
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
 
   #push:
   #  branches:
   #    - master
 
-  #schedule:
-  #  - cron: 0 21 * * 5
+  # schedule:
+  #   - cron: 0 21 * * 5
 
   #watch:
   #  types: [started]
@@ -42,35 +42,22 @@ jobs:
         echo "Deleting files, please wait ..."
         sudo rm -rf \
           /usr/share/dotnet \
+          /usr/local/lib/android \
+          /opt/ghc \
           /etc/mysql \
-          /etc/php \
-          /usr/local/lib/android
-        sudo -E apt-get -y purge \
-          azure-cli \
-          ghc* \
-          zulu* \
-          hhvm \
-          llvm* \
-          firefox \
-          google* \
-          dotnet* \
-          powershell \
-          openjdk* \
-          adoptopenjdk* \
-          mysql* \
-          php* \
-          mongodb* \
-          moby* \
-          snapd*
+          /etc/php
+        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* hhvm* llvm* firefox* google* dotnet* aspnetcore* powershell* openjdk* adoptopenjdk* mysql* php* mongodb* moby* snap* || true
         sudo -E apt-get clean
-        sudo -E apt-get update
-        sudo -E apt-get -y install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
-          bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
-          git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
-          libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz \
-          mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pyelftools \
-          libpython3-dev qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip \
-          vim wget xmlto xxd zlib1g-dev python3-setuptools
+        sudo -E apt-get update -y
+        sudo -E apt full-upgrade -y
+        sudo -E apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
+          g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
+          libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5 \
+          libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lld llvm lrzsz mkisofs msmtp \
+          nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip python3-ply \
+          python3-docutils python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig \
+          texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
 
@@ -80,7 +67,7 @@ jobs:
 
     - name: Clone source code
       env:
-        REPO_URL: https://github.com/coolsnowwolf/lede
+        REPO_URL: https://github.com/immortalwrt/immortalwrt.git
         REPO_BRANCH: master
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
@@ -94,73 +81,26 @@ jobs:
     #    ccache: 'true'
     #    prefix: ./openwrt
 
-    - name: Import external feeds - passwall
-      working-directory: ./openwrt
-      run: |
-        echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-        echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
-
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
+        sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
+        sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
         ./scripts/feeds update -a
+        rm -rfv ./feeds/packages/net/{xray*,v2ray-*}
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
-    #- name: Import external feeds - OpenClash
-    #  working-directory: ./openwrt
-    #  run: |
-    #    mkdir package/luci-app-openclash
-    #    cd package/luci-app-openclash
-    #    git init
-    #    git remote add -f origin https://github.com/vernesong/OpenClash.git
-    #    git config core.sparsecheckout true
-    #    echo "luci-app-openclash" >> .git/info/sparse-checkout
-    #    git pull --depth 1 origin master
-    #    git branch --set-upstream-to=origin/master master
-
-    #- name: Check Space
-    #  run: |
-    #    df -h
-
-    #- name: Import external feeds - JerryKuKu HelloWorld
-    #  working-directory: ./openwrt
-    #  run: |
-    #    git clone https://github.com/jerrykuku/lua-maxminddb.git package/lua-maxminddb
-    #    git clone https://github.com/jerrykuku/luci-app-vssr.git package/luci-app-vssr
-
-    #- name: Import external feeds - JerryKuKu jd-dailybonus
-    #  working-directory: ./openwrt
-    #  run: |
-    #    git clone https://github.com/jerrykuku/luci-app-jd-dailybonus.git package/luci-app-jd-dailybonus
-    #    rm -rfv package/lean/luci-app-jd-dailybonus
-
-    - name: Import external feeds - JerryKuKu Argon
+    - name: Import external feeds - luci-app-adguardhome
       working-directory: ./openwrt
       run: |
-        rm -rfv feeds/luci/themes/luci-theme-argon
-        rm -rfv package/feeds/luci/luci-theme-argon
-        git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+        git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/luci-app-adguardhome
 
-    - name: Import external feeds - JerryKuKu Argon-config
-      working-directory: ./openwrt
-      run: |
-        rm -rfv feeds/luci/applications/luci-app-argon-config
-        rm -rfv package/feeds/luci/luci-app-argon-config
-        git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
-
-    - name: Import external feeds - wechatpush
-      working-directory: ./openwrt
-      run: |
-        rm -rfv feeds/luci/applications/luci-app-serverchan
-        rm -rfv package/feeds/luci/luci-app-serverchan
-        git clone -b openwrt-18.06 https://github.com/tty228/luci-app-wechatpush.git package/luci-app-wechatpush
-
-    - name: Configuration Customization - Build_myOP_360_T7
+    - name: Configuration Customization - Build_360_T7
       env:
         CONFIG_FILE: 'my_360_T7.config'
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e $CONFIG_FILE ] && mv -f $CONFIG_FILE openwrt/.config
         chmod +x ./my_customize_360_T7.sh && ./my_customize_360_T7.sh
         cd openwrt && make defconfig
 
@@ -180,6 +120,7 @@ jobs:
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
+        #make -j1 V=s
 
     - name : Upload artifact
       uses: actions/upload-artifact@master
