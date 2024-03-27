@@ -84,21 +84,16 @@ jobs:
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
-        sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
-        sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
+        #sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
+        #sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
         ./scripts/feeds update -a
-        rm -rfv ./feeds/packages/net/{xray*,v2ray-*}
-        git clone https://github.com/kenzok8/small.git
-        rm -rfv ./feeds/xiaorouji/shadowsocks-rust
-        mv -v ./small/shadowsocks-rust ./feeds/xiaorouji
-        rm -rfv ./small
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
-    - name: Import external feeds - luci-app-adguardhome
-      working-directory: ./openwrt
-      run: |
-        git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/luci-app-adguardhome
+    #- name: Import external feeds - luci-app-adguardhome
+    #  working-directory: ./openwrt
+    #  run: |
+    #    git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/luci-app-adguardhome
 
     - name: Configuration Customization - Build_360_T7
       env:
