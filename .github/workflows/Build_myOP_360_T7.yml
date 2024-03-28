@@ -51,12 +51,11 @@ jobs:
         sudo -E apt-get update -y
         sudo -E apt full-upgrade -y
         sudo -E apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
-          bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
-          g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
-          libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5 \
-          libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lld llvm lrzsz mkisofs msmtp \
-          nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip python3-ply \
-          python3-docutils python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig \
+          bzip2 ccache clang clangd cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
+          g++-multilib git gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev \
+          libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5 libncursesw5-dev libreadline-dev \
+          libssl-dev libtool lld lldb lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 \
+          python3 python3-pip python3-ply python-docutils qemu-utils re2c rsync scons squashfs-tools subversion swig \
           texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
@@ -67,8 +66,8 @@ jobs:
 
     - name: Clone source code
       env:
-        REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-        REPO_BRANCH: master
+        REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
+        REPO_BRANCH: openwrt-21.02
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
     #    cd openwrt
@@ -84,23 +83,17 @@ jobs:
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
-        #sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
-        #sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
+        sed -i 's/openwrt-21.02/master/g' feeds.conf.default
         ./scripts/feeds update -a
-        git clone https://github.com/hanwckf/immortalwrt-mt798x.git
-        rm -rf ./target
-        cp -rf ./immortalwrt-mt798x/target ./
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-        cp -f ./immortalwrt-mt798x/defconfig/mt7981-ax3000.config .config
-        rm -rf ./immortalwrt-mt798x
 
-    #- name: Import external feeds - luci-app-adguardhome
-    #  working-directory: ./openwrt
-    #  run: |
-    #    git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/luci-app-adguardhome
+    - name: Import external feeds - luci-app-adguardhome
+      working-directory: ./openwrt
+      run: |
+        git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/luci-app-adguardhome
 
-    - name: Configuration Customization - Build_360_T7
+    - name: Configuration Customization - Build_360_T7_108M_ubi
       env:
         CONFIG_FILE: 'my_360_T7.config'
       run: |
