@@ -85,6 +85,7 @@ jobs:
       run: |
         sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
         sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
+        sed -i '3i src-gti openclash https://github.com/vernesong/OpenClash' feeds.conf.default
         ./scripts/feeds update -a
         rm -rfv ./feeds/packages/net/{xray*,v2ray-*}
         git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
@@ -96,6 +97,8 @@ jobs:
         rm -rfv ./feeds/xiaorouji/shadowsocks-rust
         mv -v ./small/shadowsocks-rust ./feeds/xiaorouji
         rm -rfv ./small
+        rm -rfv ./feeds/luci/application/luci-app-openclash
+        sed -i '19,20,21d' ./feeds/openclash/luci-app-openclash/Makefile
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
