@@ -98,7 +98,7 @@ jobs:
         mv -v ./small/shadowsocks-rust ./feeds/xiaorouji
         rm -rfv ./small
         rm -rfv ./feeds/luci/application/luci-app-openclash
-        sed -i '19,20,21d' ./feeds/openclash/luci-app-openclash/Makefile
+        sed -i '19,20,21d' ./feeds/luci-app-openclash/Makefile
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
