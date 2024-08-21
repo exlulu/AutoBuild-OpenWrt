@@ -77,7 +77,7 @@ jobs:
         # sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
         # sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
         # sed -i '3i src-git openclash https://github.com/vernesong/OpenClash' feeds.conf.default
-        # ./scripts/feeds update -a
+        ./scripts/feeds update -a
         # rm -rf ./feeds/packages/net/{xray*,v2ray-*}
         # rm -rf ./feeds/luci/applications/luci-app-openclash
         # sed -i '19,21d' ./feeds/openclash/luci-app-openclash/Makefile
