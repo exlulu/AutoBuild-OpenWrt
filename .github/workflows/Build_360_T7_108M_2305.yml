@@ -69,32 +69,12 @@ jobs:
         REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
         REPO_BRANCH: openwrt-23.05
       run: |
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt
 
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
-        # sed -i '1i src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall-packages' feeds.conf.default
-        # sed -i '2i src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2' feeds.conf.default
-        # sed -i '3i src-git openclash https://github.com/vernesong/OpenClash' feeds.conf.default
         ./scripts/feeds update -a
-        # rm -rf ./feeds/packages/net/{xray*,v2ray-*}
-        # rm -rf ./feeds/luci/applications/luci-app-openclash
-        # sed -i '19,21d' ./feeds/openclash/luci-app-openclash/Makefile
-        # git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
-        # new version golang
-        # mv ./packages_master/lang/rust ./feeds/packages/lang
-        # rm -rf ./feeds/packages/lang/golang
-        # mv ./packages_master/lang/golang ./feeds/packages/lang
-        # new version adguardhome
-        # rm -rf ./feeds/packages/net/adguardhome
-        # mv ./packages_master/net/adguardhome ./feeds/packages/net
-        # wget https://raw.githubusercontent.com/exlulu/AutoBuild-OpenWrt/master/adguardhome_Makefile -O ./feeds/packages/net/adguardhome/Makefile 
-        # rm -rf ./packages_master
-        # git clone https://github.com/kenzok8/small.git
-        # rm -rf ./feeds/xiaorouji/shadowsocks-rust
-        # mv ./small/shadowsocks-rust ./feeds/xiaorouji
-        # rm -rf ./small
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
