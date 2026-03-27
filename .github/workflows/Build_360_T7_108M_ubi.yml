@@ -81,16 +81,16 @@ jobs:
         # rm -rf ./feeds/packages/net/{xray*,v2ray-*}
         # rm -rf ./feeds/luci/applications/luci-app-openclash
         # sed -i '19,21d' ./feeds/openclash/luci-app-openclash/Makefile
-        git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
+        # git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
         # new version golang
         # mv ./packages_master/lang/rust ./feeds/packages/lang
         rm -rf ./feeds/packages/lang/golang
-        mv ./packages_master/lang/golang ./feeds/packages/lang
+        git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
         # new version adguardhome
         # rm -rf ./feeds/packages/net/adguardhome
         # mv ./packages_master/net/adguardhome ./feeds/packages/net
         # wget https://raw.githubusercontent.com/exlulu/AutoBuild-OpenWrt/master/adguardhome_Makefile -O ./feeds/packages/net/adguardhome/Makefile 
-        rm -rf ./packages_master
+        # rm -rf ./packages_master
         # git clone https://github.com/kenzok8/small.git
         # rm -rf ./feeds/xiaorouji/shadowsocks-rust
         # mv ./small/shadowsocks-rust ./feeds/xiaorouji
