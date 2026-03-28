@@ -127,6 +127,17 @@ jobs:
       run: |
         df -h
 
+
+    - name: Check package/network/utils/iptables/Makefile
+      working-directory: ./openwrt
+      run: |
+        cat package/network/utils/iptables/Makefile
+
+    - name: Check package/kernel/linux/modules/netfilter.mk
+      working-directory: ./openwrt
+      run: |
+        cat package/kernel/linux/modules/netfilter.mk
+
     - name: Build firmware
       working-directory: ./openwrt
       run: |
