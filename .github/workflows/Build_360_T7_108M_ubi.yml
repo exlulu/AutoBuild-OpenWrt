@@ -134,8 +134,12 @@ jobs:
         make -j$(nproc) V=s
         #make -j1 V=s
 
+    - name: Get date
+      run: |
+        echo "BUILD_DATE=$(TZ='Asia/Shanghai' date +'%Y%m%d')" >> $GITHUB_ENV
+
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt
+        name: OpenWrt-${{ env.BUILD_DATE }}
         path: openwrt/bin
