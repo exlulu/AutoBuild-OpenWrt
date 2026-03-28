@@ -151,5 +151,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt-${{ env.BUILD_DATE }}
+        name: OpenWrt-21.02-${{ env.BUILD_DATE }}
         path: openwrt/bin
