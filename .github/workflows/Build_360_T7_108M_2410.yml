@@ -99,7 +99,7 @@ jobs:
         CONFIG_FILE: '360_T7_108M_2410.config'
       run: |
         [ -e $CONFIG_FILE ] && mv -f $CONFIG_FILE openwrt/.config
-        chmod +x ./my_customize_360_T7.sh && ./my_customize_360_T7.sh
+        chmod +x ./my_customize_360_T7_2410.sh && ./my_customize_360_T7_2410.sh
         cd openwrt && make defconfig
 
     - name: Download package
