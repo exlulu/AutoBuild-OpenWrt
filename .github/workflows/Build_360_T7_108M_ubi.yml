@@ -77,7 +77,7 @@ jobs:
       run: |
         ./scripts/feeds update -a
         rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
-        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages package/passwall-packages
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
         # new version golang
         mv ./packages_master/lang/rust ./feeds/packages/lang
@@ -102,11 +102,11 @@ jobs:
       run: |
         git clone https://github.com/chenmozhijin/luci-app-adguardhome.git package/luci-app-adguardhome
 
-    # - name: Import external feeds - luci-app-passwall2
-    #   working-directory: ./openwrt
-    #   run: |
-    #     rm -rf feeds/luci/applications/luci-app-passwall
-    #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2 package/passwall-luci
+    - name: Import external feeds - luci-app-passwall2
+      working-directory: ./openwrt
+      run: |
+        rm -rf feeds/luci/applications/luci-app-passwall
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
 
     - name: Configuration Customization - Build_360_T7_108M_ubi
       env:
