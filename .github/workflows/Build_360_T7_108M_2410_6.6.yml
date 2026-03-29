@@ -1,0 +1,129 @@
+#=================================================
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: eSirPlayground
+# Youtube Channel: https://goo.gl/fvkdwm
+#=================================================
+
+name: Build_360_T7_108M_2410
+
+on:
+  # Add a button to trigger the workflow
+  repository_dispatch:
+  workflow_dispatch:
+
+  # release:
+  #   types: [published]
+
+  # push:
+  #   branches:
+  #     - master
+
+  # schedule:
+  #   - cron: 0 21 * * 5
+
+  # watch:
+  #   types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        set +e
+        docker rmi `docker images -q`
+        echo "Deleting files, please wait ..."
+        sudo rm -rf \
+          /usr/share/dotnet \
+          /usr/local/lib/android \
+          /opt/ghc \
+          /etc/mysql \
+          /etc/php
+        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* hhvm* llvm* firefox* google* dotnet* aspnetcore* powershell* openjdk* adoptopenjdk* mysql* php* mongodb* moby* snap* || true
+        sudo -E apt-get clean
+        sudo -E apt-get update -y
+        sudo -E apt full-upgrade -y
+        sudo -E apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
+          g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
+          libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev \
+          libreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano \
+          ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils \
+          python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs \
+          upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+
+    - name: Check Space
+      run: |
+        df -h
+
+    - name: Clone source code
+      env:
+        REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
+        REPO_BRANCH: openwrt-24.10-6.6
+      run: |
+        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt
+
+    - name: Update & Install feeds
+      working-directory: ./openwrt
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        ./scripts/feeds install -a
+
+    - name: Import external feeds - luci-app-passwall2
+      working-directory: ./openwrt
+      run: |
+        rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
+        rm -rf feeds/luci/applications/luci-app-passwall
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
+
+    - name: Import external feeds - luci-app-adguardhome
+      working-directory: ./openwrt
+      run: |
+        git clone https://github.com/chenmozhijin/luci-app-adguardhome.git package/luci-app-adguardhome
+
+    - name: Configuration Customization - Build_360_T7_108M_2410_6.6
+      env:
+        CONFIG_FILE: '360_T7_108M_2410_6.6.config'
+      run: |
+        [ -e $CONFIG_FILE ] && mv -f $CONFIG_FILE openwrt/.config
+        chmod +x ./my_customize_360_T7_2410.sh && ./my_customize_360_T7_2410.sh
+        cd openwrt && make defconfig
+
+    - name: Download package
+      working-directory: ./openwrt
+      run: |
+        make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: Check Space
+      run: |
+        df -h
+
+    - name: Build firmware
+      working-directory: ./openwrt
+      run: |
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s
+        #make -j1 V=s
+
+    - name: Get date
+      run: |
+        echo "BUILD_DATE=$(TZ='Asia/Shanghai' date +'%Y%m%d')" >> $GITHUB_ENV
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt-24.10with6.6-${{ env.BUILD_DATE }}
+        path: openwrt/bin
