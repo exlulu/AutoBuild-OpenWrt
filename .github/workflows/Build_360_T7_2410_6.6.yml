@@ -5,7 +5,7 @@
 # Youtube Channel: https://goo.gl/fvkdwm
 #=================================================
 
-name: Build_360_T7_108M_2410_6.6
+name: Build_360_T7_2410_6.6
 
 on:
   # Add a button to trigger the workflow
@@ -93,9 +93,9 @@ jobs:
       run: |
         git clone https://github.com/chenmozhijin/luci-app-adguardhome.git package/luci-app-adguardhome
 
-    - name: Configuration Customization - Build_360_T7_108M_2410_6.6
+    - name: Configuration Customization - Build_360_T7_2410_6.6
       env:
-        CONFIG_FILE: '360_T7_108M_2410_6.6.config'
+        CONFIG_FILE: '360_T7_2410_6.6.config'
       run: |
         [ -e $CONFIG_FILE ] && mv -f $CONFIG_FILE openwrt/.config
         chmod +x ./my_customize_360_T7_2410.sh && ./my_customize_360_T7_2410.sh
