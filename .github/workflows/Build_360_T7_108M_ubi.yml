@@ -83,7 +83,7 @@ jobs:
         mv ./packages_master/lang/rust ./feeds/packages/lang
         rm -rf ./feeds/packages/lang/golang
         mv ./packages_master/lang/golang ./feeds/packages/lang
-        # Make geoview
+        # add geoview
         mv ./packages_master/net/geoview ./feeds/packages/net
         # new version adguardhome
         # rm -rf ./feeds/packages/net/adguardhome
