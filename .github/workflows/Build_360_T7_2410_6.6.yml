@@ -77,14 +77,14 @@ jobs:
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
+        rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
-    - name: Import external feeds - luci-app-passwall2
-      working-directory: ./openwrt
-      run: |
-        rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
-        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
+    # - name: Import external feeds - luci-app-passwall2
+    #   working-directory: ./openwrt
+    #   run: |
     #     rm -rf feeds/luci/applications/luci-app-passwall
     #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
 
