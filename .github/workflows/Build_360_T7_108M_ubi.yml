@@ -76,8 +76,8 @@ jobs:
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
-        rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
-        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
+        # rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
+        # git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
         # new version golang
         mv ./packages_master/lang/rust ./feeds/packages/lang
