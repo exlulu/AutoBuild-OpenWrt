@@ -82,11 +82,11 @@ jobs:
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
-    # - name: Import external feeds - luci-app-passwall2
-    #   working-directory: ./openwrt
-    #   run: |
-    #     rm -rf feeds/luci/applications/luci-app-passwall
-    #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
+    - name: Import external feeds - luci-app-passwall2
+      working-directory: ./openwrt
+      run: |
+        rm -rf feeds/luci/applications/luci-app-passwall
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
 
     - name: Import external feeds - luci-app-adguardhome
       working-directory: ./openwrt
