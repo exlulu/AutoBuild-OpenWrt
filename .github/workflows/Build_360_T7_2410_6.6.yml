@@ -77,8 +77,8 @@ jobs:
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
-        # rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
-        # git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
+        rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
+        git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
