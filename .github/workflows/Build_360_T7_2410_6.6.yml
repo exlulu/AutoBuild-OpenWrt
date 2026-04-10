@@ -58,7 +58,7 @@ jobs:
           ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils \
           python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs \
           upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
-        sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.org/init_build_environment.sh)'
+        # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.org/init_build_environment.sh)'
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
 
@@ -76,17 +76,18 @@ jobs:
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
+        echo "src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git;main" >> "feeds.conf.default"
         ./scripts/feeds update -a
         # rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
         # git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
-    - name: Import external feeds - luci-app-passwall2
-      working-directory: ./openwrt
-      run: |
-        rm -rf feeds/luci/applications/luci-app-passwall
-        git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
+    # - name: Import external feeds - luci-app-passwall2
+    #   working-directory: ./openwrt
+    #   run: |
+    #     rm -rf feeds/luci/applications/luci-app-passwall
+    #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
 
     - name: Import external feeds - luci-app-adguardhome
       working-directory: ./openwrt
