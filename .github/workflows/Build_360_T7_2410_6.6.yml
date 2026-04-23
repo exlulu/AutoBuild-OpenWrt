@@ -80,8 +80,6 @@ jobs:
         ./scripts/feeds update -a
         # rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
         # git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
-        git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/OpenWrt-nikki
-        rm -rf package/OpenWrt-nikki/mihomo-alpha
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
@@ -90,6 +88,12 @@ jobs:
     #   run: |
     #     rm -rf feeds/luci/applications/luci-app-passwall
     #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
+
+    - name: Import external feeds - luci-app-nikki
+      working-directory: ./openwrt
+      run: |
+        git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/OpenWrt-nikki
+        rm -rf package/OpenWrt-nikki/mihomo-alpha
 
     - name: Import external feeds - luci-app-adguardhome
       working-directory: ./openwrt
