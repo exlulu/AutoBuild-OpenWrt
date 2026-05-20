@@ -5,7 +5,7 @@
 # Youtube Channel: https://goo.gl/fvkdwm
 #=================================================
 
-name: Build_360_T7_2410_6.6
+name: Check upx
 
 on:
   # Add a button to trigger the workflow
