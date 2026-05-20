@@ -94,6 +94,7 @@ jobs:
       run: |
         git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/OpenWrt-nikki
         rm -rf package/OpenWrt-nikki/mihomo-alpha
+        sed -i 's/[[:space:]]\++mihomo[[:space:]]*//' package/OpenWrt-nikki/nikki/Makefile
         # sed -i '/^PKG_NAME/a PKG_USE_UPX:=1' package/OpenWrt-nikki/mihomo-meta/Makefile
 
     - name: Import external feeds - luci-app-adguardhome
