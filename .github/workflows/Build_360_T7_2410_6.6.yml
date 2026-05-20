@@ -94,12 +94,17 @@ jobs:
       run: |
         git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/OpenWrt-nikki
         rm -rf package/OpenWrt-nikki/mihomo-alpha
-    #     sed -i '/^PKG_NAME/a PKG_USE_UPX:=1' package/OpenWrt-nikki/mihomo-meta/Makefile
+        # sed -i '/^PKG_NAME/a PKG_USE_UPX:=1' package/OpenWrt-nikki/mihomo-meta/Makefile
 
     - name: Import external feeds - luci-app-adguardhome
       working-directory: ./openwrt
       run: |
-        git clone https://github.com/w9315273/luci-app-adguardhome.git package/luci-app-adguardhome
+        # git clone https://github.com/w9315273/luci-app-adguardhome.git package/luci-app-adguardhome
+        git clone --depth=1 https://github.com/immortalwrt/luci.git package/luci
+        mv -f package/luci/applications/luci-app-adguardhome feeds/luci/applications
+        rm -rf package/luci
+        ./scripts/feeds update -a
+        ./scripts/feeds install -af
 
     - name: Configuration Customization - Build_360_T7_2410_6.6
       env:
