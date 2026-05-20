@@ -105,7 +105,7 @@ jobs:
         rm -rf package/luci
         sed -i 's/LUCI_NAME/PKG_NAME/g' feeds/luci/applications/luci-app-adguardhome/Makefile
         sed -i 's/LUCI_MAINTAINER/PKG_MAINTAINER/g' feeds/luci/applications/luci-app-adguardhome/Makefile
-        sed -i '/LUCI_DEPENDS/d' feeds/luci/applications/luci-app-adguardhome/Makefile
+        sed -i 's/+adguardhome[[:space:]]*//' feeds/luci/applications/luci-app-adguardhome/Makefile
         sed -i '/LUCI_EXTRA_DEPENDS/d' feeds/luci/applications/luci-app-adguardhome/Makefile
         ./scripts/feeds update -a
         ./scripts/feeds install -af
