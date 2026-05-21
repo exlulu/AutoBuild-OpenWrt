@@ -89,7 +89,7 @@ jobs:
     - name: Build nikki
       working-directory: ./openwrt
       run: |
-        make package/luci-app-nikki/compile
+        make V=s package/luci-app-nikki/compile
 
     - name: Get date
       run: |
