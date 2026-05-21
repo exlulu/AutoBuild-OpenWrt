@@ -68,6 +68,7 @@ jobs:
       working-directory: ./openwrt
       run: |
         sed -i 's/[[:space:]]\++mihomo[[:space:]]*//' feeds/nikki/nikki/Makefile
+        rm -rf feeds/nikki/mihomo-alpha
         ./scripts/feeds update -a
         ./scripts/feeds install -af
 
@@ -79,17 +80,20 @@ jobs:
         chmod +x ./my_customize_360_T7_2410.sh && ./my_customize_360_T7_2410.sh
         cd openwrt && make defconfig
 
-    - name: Download package
+    - name: make toolchain
       working-directory: ./openwrt
       run: |
-        make download -j$(nproc)
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        make toolchain/compile -j$(nproc) V=s
+
+    - name: make target
+      working-directory: ./openwrt
+      run: |
+        make target/linux/compile -j$(nproc) V=s
 
     - name: Build nikki
       working-directory: ./openwrt
       run: |
-        make V=s package/luci-app-nikki/compile
+        make package/luci-app-nikki/compile V=s
 
     - name: Get date
       run: |
