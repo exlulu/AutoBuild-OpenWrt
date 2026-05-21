@@ -12,19 +12,6 @@ on:
   repository_dispatch:
   workflow_dispatch:
 
-  # release:
-  #   types: [published]
-
-  # push:
-  #   branches:
-  #     - master
-
-  # schedule:
-  #   - cron: 0 21 * * 5
-
-  # watch:
-  #   types: [started]
-
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -62,10 +49,6 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
 
-    - name: Check Space
-      run: |
-        df -h
-
     - name: Clone source code
       env:
         REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
@@ -78,16 +61,15 @@ jobs:
       run: |
         echo "src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git;main" >> "feeds.conf.default"
         ./scripts/feeds update -a
-        # rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
-        # git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
-    # - name: Import external feeds - luci-app-passwall2
-    #   working-directory: ./openwrt
-    #   run: |
-    #     rm -rf feeds/luci/applications/luci-app-passwall
-    #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
+    - name: Del DEPENDS mihomo
+      working-directory: ./openwrt
+      run: |
+        sed -i 's/[[:space:]]\++mihomo[[:space:]]*//' feeds/nikki/nikki/Makefile
+        ./scripts/feeds update -a
+        ./scripts/feeds install -af
 
     - name: Configuration Customization - Build_360_T7_2410_6.6
       env:
@@ -103,10 +85,6 @@ jobs:
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
-    - name: Check Space
-      run: |
-        df -h
 
     - name: Build nikki
       working-directory: ./openwrt
