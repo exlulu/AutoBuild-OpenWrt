@@ -76,18 +76,14 @@ jobs:
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
-        # echo "src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git;main" >> "feeds.conf.default"
         ./scripts/feeds update -a
-        # rm -rf feeds/packages/net/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
-        # git clone https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git package/passwall-packages
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
-    # - name: Import external feeds - luci-app-passwall2
-    #   working-directory: ./openwrt
-    #   run: |
-    #     rm -rf feeds/luci/applications/luci-app-passwall
-    #     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git package/passwall-luci
+    - name: Del DEPENDS Zerotier
+      working-directory: ./openwrt
+      run: |
+        # sed -i 's/+zerotier/+luci-base/g' feeds/luci/applications/luci-app-zerotier/Makefile
 
     - name: Import external feeds - luci-app-nikki
       working-directory: ./openwrt
