@@ -77,7 +77,7 @@ jobs:
       working-directory: ./openwrt
       run: |        
         ./scripts/feeds update -a
-        rm -rf feeds/packages/net/zerotier
+        # rm -rf feeds/packages/net/zerotier
         ./scripts/feeds install -a
         ./scripts/feeds install -af
 
@@ -85,7 +85,7 @@ jobs:
       working-directory: ./openwrt
       run: |
         sed -i 's/+zerotier/+luci-base/g' feeds/luci/applications/luci-app-zerotier/Makefile
-        git clone https://github.com/mwarning/zerotier-openwrt.git package/zerotier-openwrt
+        # git clone https://github.com/mwarning/zerotier-openwrt.git package/zerotier-openwrt
 
     - name: Import external feeds - luci-app-nikki
       working-directory: ./openwrt
