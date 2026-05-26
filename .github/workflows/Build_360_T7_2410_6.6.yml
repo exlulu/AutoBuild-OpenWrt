@@ -69,7 +69,7 @@ jobs:
     - name: Import external feeds - luci-app-nikki
       working-directory: ./openwrt
       run: |
-        git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git package/OpenWrt-nikki
+        git clone -b main --single-branch --filter=blob:none https://github.com/nikkinikki-org/OpenWrt-nikki.git package/OpenWrt-nikki
         rm -rf package/OpenWrt-nikki/mihomo-alpha
         sed -i 's/[[:space:]]\++mihomo[[:space:]]*//' package/OpenWrt-nikki/nikki/Makefile
         # sed -i '/^PKG_NAME/a PKG_USE_UPX:=1' package/OpenWrt-nikki/mihomo-meta/Makefile
