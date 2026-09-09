@@ -69,6 +69,11 @@ jobs:
         sed -i 's/+zerotier/+luci-base/g' feeds/luci/applications/luci-app-zerotier/Makefile
         git clone https://github.com/mwarning/zerotier-openwrt.git package/zerotier-openwrt
 
+    - name: Import external feeds - luci-app-easytier
+      working-directory: ./openwrt
+      run: |
+        git clone https://github.com/EasyTier/luci-app-easytier.git package/luci-app-easytier
+
     - name: Import external feeds - luci-app-nikki
       working-directory: ./openwrt
       run: |
