@@ -74,6 +74,11 @@ jobs:
       run: |
         git clone https://github.com/EasyTier/luci-app-easytier.git package/luci-app-easytier
 
+    - name: Import external feeds - OpenWrt-IPThrottle
+      working-directory: ./openwrt
+      run: |
+        git clone https://github.com/luowei729/OpenWrt-IPThrottle.git package/OpenWrt-IPThrottle
+
     - name: Import external feeds - luci-app-nikki
       working-directory: ./openwrt
       run: |
